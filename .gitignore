@@ -1,0 +1,16 @@
+logs
+*.logs
+
+node_modules
+
+#environment variables
+frontend/.env
+backend/.env
+
+# lock files (each sub-project has its own)
+package-lock.json
+
+# IDE
+.vscode/
+
+.DS_Store
