@@ -7,8 +7,7 @@ import {
   HiOutlineShoppingBag,
 } from "react-icons/hi2"; // ✅ correct icon pack
 import SearchBar from "./SearchBar";
-import VoiceSearchBar from "./VoiceSearchBar";
-import CartDrawer from "../Layout/CartDrawer";
+import VoiceSearchBar from "./VoiceSearchBar";import CartDrawer from "../Layout/CartDrawer";
 import { IoMdClose } from "react-icons/io";
 
 const Navbar = () => {
@@ -17,7 +16,10 @@ const Navbar = () => {
 
   const { user } = useSelector((state) => state.auth);
   const { cart } = useSelector((state) => state.cart);
+  const { shoppingList } = useSelector((state) => state.voice);
   const cartItemCount = cart?.products?.length || 0;
+  const savedCount = shoppingList?.filter((i) => !i.inCart).length || 0;
+  const totalBadge = cartItemCount + savedCount;
 
   const toggleCartDrawer = () => {
     setDrawerOpen((prev) => !prev);
@@ -67,9 +69,9 @@ const Navbar = () => {
             className="relative hover:text-comic-cyan transition-all hover:scale-110"
           >
             <HiOutlineShoppingBag className="h-6 w-6 text-comic-dark" />
-            {cartItemCount > 0 && (
+            {totalBadge > 0 && (
               <span className="absolute -top-2 -right-2 bg-comic-red text-white text-xs font-comic rounded-full w-5 h-5 flex items-center justify-center border-2 border-comic-dark animate-bounce-slow">
-                {cartItemCount}
+                {totalBadge > 9 ? "9+" : totalBadge}
               </span>
             )}
           </button>

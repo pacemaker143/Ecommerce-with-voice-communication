@@ -29,12 +29,15 @@ const COMMAND_EXAMPLES = [
 const VoiceCommandPanel = () => {
   const dispatch = useDispatch();
   const { isListening, transcript, language, lastCommand, shoppingList } = useSelector((s) => s.voice);
+  const { cart } = useSelector((s) => s.cart);
   const [isExpanded, setIsExpanded] = useState(false);
   const [showPanel, setShowPanel] = useState(true);
 
   const { startListening, stopListening } = useVoiceRecognition();
 
-  const listCount = shoppingList?.length || 0;
+  const savedCount = shoppingList?.filter((i) => !i.inCart).length || 0;
+  const cartCount = cart?.products?.length || 0;
+  const totalCount = savedCount + cartCount;
 
   if (!showPanel) return null;
 
@@ -113,8 +116,8 @@ const VoiceCommandPanel = () => {
             to="/shopping-list"
             className="flex items-center justify-between p-2.5 bg-comic-yellow/30 border-2 border-comic-yellow rounded-xl hover:bg-comic-yellow/50 transition-colors"
           >
-            <span className="font-comic text-comic-dark text-sm">📋 My Shopping List</span>
-            <span className="comic-badge bg-comic-dark text-comic-yellow text-xs">{listCount}</span>
+            <span className="font-comic text-comic-dark text-sm">🛒 My Cart &amp; List</span>
+            <span className="comic-badge bg-comic-dark text-comic-yellow text-xs">{totalCount}</span>
           </Link>
         </div>
       )}
@@ -156,9 +159,9 @@ const VoiceCommandPanel = () => {
           title={isListening ? "Stop listening" : "Start voice command"}
         >
           <HiMicrophone className="h-6 w-6" />
-          {listCount > 0 && !isListening && (
+          {totalCount > 0 && !isListening && (
             <span className="absolute -top-1 -right-1 bg-comic-dark text-comic-yellow text-[10px] font-comic rounded-full w-5 h-5 flex items-center justify-center border-2 border-white">
-              {listCount > 9 ? "9+" : listCount}
+              {totalCount > 9 ? "9+" : totalCount}
             </span>
           )}
         </button>

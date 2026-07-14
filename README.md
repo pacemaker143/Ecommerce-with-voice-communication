@@ -1,6 +1,6 @@
 <div align="center">
 
-# Voice-Powered Comic Book E-Commerce Store
+# 🐰 Voice-Powered Comic Book E-Commerce Store
 
 <img src="https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black" />
 <img src="https://img.shields.io/badge/Node.js-Express-339933?style=for-the-badge&logo=node.js&logoColor=white" />
@@ -13,7 +13,19 @@
 
 <br/><br/>
 
-> **A full-stack MERN e-commerce platform with a unique comic-book visual theme, voice command shopping, AI-powered smart suggestions, and a complete admin dashboard — built from scratch.**
+## 🌐 Live Demo
+
+| | URL |
+|---|---|
+| 🚀 **Frontend App** | **[voice-powered-comic-book-ecommerce.vercel.app](https://voice-powered-comic-book-ecommerce.vercel.app)** |
+| 🔧 **Backend API** | **[voice-comic-ecommerce-api.vercel.app](https://voice-comic-ecommerce-api.vercel.app)** |
+| 📦 **GitHub Repo** | **[pacemaker143/Ecommerce-with-voice-communication](https://github.com/pacemaker143/Ecommerce-with-voice-communication)** |
+
+> **Admin login:** `admin@example.com` / `123456`
+
+<br/>
+
+> **A full-stack MERN e-commerce platform with a unique comic-book visual theme, voice command shopping, AI-powered smart suggestions, and a unified voice-powered Cart & Shopping List — built from scratch.**
 
 <br/>
 

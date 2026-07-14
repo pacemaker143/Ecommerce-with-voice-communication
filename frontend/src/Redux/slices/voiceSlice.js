@@ -58,6 +58,7 @@ const voiceSlice = createSlice({
           quantity,
           category: categorizeItem(name),
           checked: false,
+          inCart: false,
           note,
           addedAt: new Date().toISOString(),
         });
@@ -104,6 +105,27 @@ const voiceSlice = createSlice({
       saveToStorage([]);
     },
 
+    // Mark an item as moved to the real cart
+    markInCart: (state, action) => {
+      const item = state.shoppingList.find(
+        (i) => i.id === action.payload || i.name.toLowerCase() === action.payload.toLowerCase()
+      );
+      if (item) {
+        item.inCart = true;
+        saveToStorage(state.shoppingList);
+      }
+    },
+
+    unmarkInCart: (state, action) => {
+      const item = state.shoppingList.find(
+        (i) => i.id === action.payload || i.name.toLowerCase() === action.payload.toLowerCase()
+      );
+      if (item) {
+        item.inCart = false;
+        saveToStorage(state.shoppingList);
+      }
+    },
+
     // Voice state management
     setListening: (state, action) => {
       state.isListening = action.payload;
@@ -134,6 +156,8 @@ export const {
   toggleShoppingItemChecked,
   clearCheckedItems,
   clearShoppingList,
+  markInCart,
+  unmarkInCart,
   setListening,
   setTranscript,
   setLanguage,

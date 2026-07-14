@@ -10,8 +10,10 @@ import {
   removeShoppingItem,
   updateShoppingItemQty,
   setSuggestions,
+  markInCart,
 } from "../Redux/slices/voiceSlice";
-import { fetchProducts } from "../Redux/slices/productSlice";
+import { fetchProducts, } from "../Redux/slices/productSlice";
+import { addToCart } from "../Redux/slices/cartSlice";
 
 // ─── NLP: extract quantity + item name ──────────────────────────────────────
 const extractQuantityAndName = (text) => {
@@ -230,10 +232,37 @@ const useVoiceRecognition = ({ onSearchSubmit, onToggleCart } = {}) => {
       dispatch(setLastCommand(command));
 
       switch (command.type) {
-        case "ADD_TO_LIST":
+        case "ADD_TO_LIST": {
+          // Always save to list first
           dispatch(addShoppingItem({ name: command.item, quantity: command.quantity }));
-          toast.success(`✅ Added "${command.item}" (×${command.quantity}) to your list`);
+          toast.success(`✅ Saved "${command.item}" (×${command.quantity}) to list`);
+
+          // Also try to find it in the catalog and add to real cart silently
+          const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:9000";
+          fetch(`${backendUrl}/api/products?search=${encodeURIComponent(command.item)}&limit=1`)
+            .then((r) => r.json())
+            .then((data) => {
+              const match = Array.isArray(data) ? data[0] : null;
+              if (match) {
+                dispatch(
+                  addToCart({
+                    productId: match._id,
+                    quantity: command.quantity,
+                    size: match.sizes?.[0] || "M",
+                    color: match.colors?.[0] || "Default",
+                  })
+                )
+                  .unwrap()
+                  .then(() => {
+                    dispatch(markInCart(command.item));
+                    toast.info(`🛒 Also added to cart automatically`);
+                  })
+                  .catch(() => {});
+              }
+            })
+            .catch(() => {});
           break;
+        }
 
         case "REMOVE_FROM_LIST":
           dispatch(removeShoppingItem(command.item));
