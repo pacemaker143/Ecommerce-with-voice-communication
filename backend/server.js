@@ -24,7 +24,14 @@ const app = express();
 
 // Middleware
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: [
+    "http://localhost:5173",
+    "http://localhost:3000",
+    /\.vercel\.app$/,       // any *.vercel.app subdomain
+  ],
+  credentials: true,
+}));
 
 const PORT = process.env.PORT || 3000;
 
@@ -50,7 +57,12 @@ app.use("/api/admin", adminRoutes);
 app.use("/api/admin", productAdminRoutes);
 app.use("/api/admin", adminOrderRoutes);
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
+// Start server — only bind port when running locally (not on Vercel serverless)
+if (process.env.VERCEL !== "1") {
+  app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+  });
+}
+
+// Export for Vercel serverless
+module.exports = app;
