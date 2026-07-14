@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🐰 RABBIT — Voice-Powered Comic Book E-Commerce Store
+# Voice-Powered Comic Book E-Commerce Store
 
 <img src="https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black" />
 <img src="https://img.shields.io/badge/Node.js-Express-339933?style=for-the-badge&logo=node.js&logoColor=white" />
